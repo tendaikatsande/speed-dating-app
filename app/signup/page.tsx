@@ -32,13 +32,22 @@ export default function SignupPage() {
           data: {
             full_name: fullName,
           },
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=/profile/setup`,
         },
       })
 
       if (error) {
         setError(error.message)
       } else if (data.user) {
-        router.push('/profile/setup')
+        // Check if email confirmation is required
+        if (data.user.identities?.length === 0) {
+          setError('This email is already registered. Please sign in instead.')
+        } else if (!data.session) {
+          // Email confirmation required
+          router.push('/verify-email?email=' + encodeURIComponent(email))
+        } else {
+          router.push('/profile/setup')
+        }
       }
     } catch (err) {
       setError('An unexpected error occurred')
