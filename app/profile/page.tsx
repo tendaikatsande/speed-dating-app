@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 async function getProfile(userId: string) {
   const supabase = await createClient()
-  
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
@@ -19,6 +19,35 @@ async function getProfile(userId: string) {
     .single()
 
   return profile
+}
+
+async function getProfileStats(userId: string) {
+  const supabase = await createClient()
+
+  // Get events attended count
+  const { count: eventsCount } = await supabase
+    .from('registrations')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+
+  // Get matches count
+  const { count: matchesCount } = await supabase
+    .from('matches')
+    .select('*', { count: 'exact', head: true })
+    .or(`user_id_1.eq.${userId},user_id_2.eq.${userId}`)
+    .eq('status', 'mutual')
+
+  // Get messages count
+  const { count: messagesCount } = await supabase
+    .from('messages')
+    .select('*', { count: 'exact', head: true })
+    .eq('sender_id', userId)
+
+  return {
+    events: eventsCount || 0,
+    matches: matchesCount || 0,
+    messages: messagesCount || 0
+  }
 }
 
 export default async function ProfilePage() {
@@ -36,6 +65,7 @@ export default async function ProfilePage() {
   }
 
   const age = calculateAge(profile.date_of_birth)
+  const stats = await getProfileStats(user.id)
 
   return (
     <>
@@ -137,7 +167,7 @@ export default async function ProfilePage() {
                 <CardTitle className="text-lg">Events Attended</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-bold text-rose-600">0</p>
+                <p className="text-3xl font-bold text-rose-600">{stats.events}</p>
               </CardContent>
             </Card>
             <Card>
@@ -145,7 +175,7 @@ export default async function ProfilePage() {
                 <CardTitle className="text-lg">Matches</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-bold text-pink-600">0</p>
+                <p className="text-3xl font-bold text-pink-600">{stats.matches}</p>
               </CardContent>
             </Card>
             <Card>
@@ -153,7 +183,7 @@ export default async function ProfilePage() {
                 <CardTitle className="text-lg">Messages</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-bold text-purple-600">0</p>
+                <p className="text-3xl font-bold text-purple-600">{stats.messages}</p>
               </CardContent>
             </Card>
           </div>
