@@ -2,337 +2,443 @@
 
 ## Executive Summary
 
-This document provides a critical analysis of gaps, opportunities, and a production-ready roadmap for building a trendy, modern speed-dating application.
+**Current State**: Early MVP at ~40% completion with Next.js 16 + Supabase stack
+**Key Issues**: 5 critical bugs blocking core functionality
+**Estimated to Production**: ~6 weeks with focused development
 
 ---
 
-## 1. GAP ANALYSIS
+## 1. CURRENT STATE ANALYSIS
 
-### 1.1 Current State: Empty Repository
-- No codebase, architecture, or infrastructure
-- Opportunity to build with modern best practices from scratch
+### 1.1 Tech Stack (Implemented)
 
-### 1.2 Critical Gaps
+| Layer | Technology | Version | Status |
+|-------|------------|---------|--------|
+| **Frontend** | Next.js (App Router) | 16.0.3 | ✅ Current |
+| **UI Framework** | React | 19.2.0 | ✅ Current |
+| **Styling** | Tailwind CSS | 4.1.8 | ✅ Configured |
+| **State** | Zustand | 5.0.8 | ⚠️ Installed, unused |
+| **Animation** | Framer Motion | 12.23.24 | ⚠️ Installed, unused |
+| **Backend** | Supabase | 2.84.0 | ✅ Integrated |
+| **Auth** | Supabase Auth | SSR | ✅ Partial |
+| **Database** | PostgreSQL | Supabase | ✅ Schema complete |
+| **Icons** | Lucide React | 0.554.0 | ✅ Working |
 
-| Category | Gap | Risk Level | Impact |
-|----------|-----|------------|--------|
-| **Architecture** | No defined tech stack | 🔴 Critical | Blocks all development |
-| **Security** | No auth/encryption strategy | 🔴 Critical | Data breach risk |
-| **Scalability** | No infrastructure design | 🟡 High | Performance issues at scale |
-| **Real-time** | No messaging architecture | 🟡 High | Poor user experience |
-| **Compliance** | No GDPR/privacy framework | 🔴 Critical | Legal liability |
-| **Testing** | No QA strategy | 🟡 High | Unstable releases |
-| **DevOps** | No CI/CD pipeline | 🟡 High | Slow deployments |
-| **Analytics** | No tracking/metrics | 🟠 Medium | Blind business decisions |
+### 1.2 Implementation Status
 
----
-
-## 2. RECOMMENDED TECH STACK (2024-2025 Trendy)
-
-### 2.1 Frontend
-```
-Framework:     Next.js 14+ (App Router) OR React Native (Expo)
-State:         Zustand / TanStack Query
-Styling:       Tailwind CSS + Framer Motion
-UI Library:    Shadcn/ui OR Radix UI
-Real-time:     Socket.io-client
-```
-
-### 2.2 Backend
-```
-Runtime:       Node.js 20+ (Bun for performance)
-Framework:     Hono / Fastify / NestJS
-ORM:           Prisma / Drizzle
-Validation:    Zod
-Auth:          Clerk / Auth.js / Supabase Auth
-```
-
-### 2.3 Database & Storage
-```
-Primary DB:    PostgreSQL (Supabase/Neon)
-Cache:         Redis (Upstash)
-Search:        Typesense / Meilisearch
-File Storage:  Cloudflare R2 / AWS S3
-Vector DB:     Pinecone (for AI matching)
-```
-
-### 2.4 Infrastructure
-```
-Hosting:       Vercel / Railway / Fly.io
-CDN:           Cloudflare
-Monitoring:    Sentry + Posthog
-CI/CD:         GitHub Actions
-Containers:    Docker + Kubernetes (scale)
-```
+| Feature | Status | Completion | Notes |
+|---------|--------|------------|-------|
+| **Authentication** | ⚠️ Partial | 50% | Missing verification, password reset |
+| **Landing Page** | ✅ Complete | 100% | Professional, responsive |
+| **Dashboard** | ⚠️ Broken | 60% | Hardcoded stats, broken links |
+| **Profile View** | ⚠️ Broken | 40% | Missing setup/edit pages |
+| **Matches Page** | ❌ Broken | 20% | Displays hardcoded "Match Name" |
+| **Messages** | ❌ Stub | 5% | Empty UI only |
+| **Events Detail** | ❌ Missing | 0% | Page doesn't exist |
+| **Real-time Chat** | ❌ Missing | 0% | Not implemented |
+| **Notifications** | ❌ Missing | 0% | Not implemented |
+| **Admin Panel** | ❌ Missing | 0% | Not implemented |
 
 ---
 
-## 3. TRENDY FEATURES FOR 2024-2025
+## 2. CRITICAL BUGS (MUST FIX)
 
-### 3.1 Core Features (MVP)
+### 2.1 Blocking Issues
 
-| Feature | Description | Priority |
-|---------|-------------|----------|
-| **AI-Powered Matching** | ML algorithm analyzing compatibility beyond basic filters | P0 |
-| **Video Speed Dates** | WebRTC-based timed video calls with blur backgrounds | P0 |
-| **Smart Scheduling** | AI suggests optimal event times based on user patterns | P0 |
-| **Instant Verification** | Selfie + ID verification for trust & safety | P0 |
-| **Dynamic Profiles** | Video intros, voice notes, Spotify integration | P1 |
+| # | Issue | File | Line | Impact |
+|---|-------|------|------|--------|
+| 1 | **Missing `/profile/setup` page** | `app/signup/page.tsx` | 41 | New users get 404 after signup |
+| 2 | **Missing `/profile/edit` page** | `app/profile/page.tsx` | 67 | Users cannot edit profiles |
+| 3 | **Hardcoded "Match Name"** | `app/matches/page.tsx` | 75-76 | Users see placeholder, not actual matches |
+| 4 | **Missing `/events/[id]` page** | `app/dashboard/page.tsx` | 139 | Cannot view event details |
+| 5 | **Hardcoded dashboard stats** | `app/dashboard/page.tsx` | 76, 89 | Stats show fake numbers (1,234 members) |
 
-### 3.2 Differentiating Trendy Features
+### 2.2 Security Issues
 
-#### 🔥 **AI & Personalization**
-- **Vibe Matching**: Analyze conversation patterns, not just interests
-- **AI Conversation Starters**: Context-aware icebreakers generated per match
-- **Mood-Based Events**: Join events based on current mood (chill, adventurous, intellectual)
-- **Voice Personality Analysis**: Optional voice note analysis for compatibility
+| Issue | Severity | Location | Fix Required |
+|-------|----------|----------|--------------|
+| Weak password validation | 🔴 High | `app/signup/page.tsx:108` | `minLength={6}` → require 8+ with complexity |
+| Silent auth bypass | 🔴 High | `middleware.ts:5-8` | Returns `NextResponse.next()` if env missing |
+| No email verification | 🟠 Medium | Auth flow | Add Supabase email confirmation |
+| No rate limiting | 🟠 Medium | Login/signup | Add brute-force protection |
+| Generic error messages | 🟡 Low | `app/login/page.tsx:39` | Expose specific errors |
 
-#### 🎮 **Gamification & Engagement**
-- **Speed Date Streaks**: Rewards for consistent participation
-- **Compatibility Quizzes**: Fun games during wait times
-- **Achievement Badges**: Unlock for milestones (first date, 10 matches, etc.)
-- **Leaderboards**: Top conversationalists (opt-in)
+### 2.3 Code Quality Issues
 
-#### 🌐 **Social & Community**
-- **Group Speed Dating**: 3v3 or 4v4 group events
-- **Interest Clusters**: Join micro-communities (foodies, hikers, gamers)
-- **Event Themes**: 90s night, wine tasting, book club speed dates
-- **Wingman Mode**: Bring a friend to events
+| Issue | File | Description |
+|-------|------|-------------|
+| Anti-pattern | `app/login/page.tsx:19` | Supabase client in `useState()` - use `useMemo` |
+| No pagination | `app/dashboard/page.tsx:20` | Hardcoded `.limit(12)` |
+| Inefficient query | `app/matches/page.tsx:20` | `.or()` clause may miss matches |
+| No validation | All forms | HTML5 only - need Zod schemas |
+| Unused deps | `package.json` | Zustand, Framer Motion never used |
 
-#### 🛡️ **Trust & Safety**
-- **AI Harassment Detection**: Real-time moderation
+---
+
+## 3. DATABASE SCHEMA ANALYSIS
+
+### 3.1 Current Tables (✅ Well Designed)
+
+```
+profiles         - User profiles with bio, interests, avatar
+events           - Speed dating events with capacity, price
+registrations    - User event registrations
+matches          - Match records between users
+messages         - Chat messages
+ratings          - Event feedback
+```
+
+**Strengths**:
+- ✅ RLS enabled on all tables
+- ✅ Proper UUID keys with cascade deletes
+- ✅ Triggers for timestamps and match status
+- ✅ Comprehensive indexes
+- ✅ Type-safe definitions in `lib/types/database.types.ts`
+
+### 3.2 Missing Tables
+
+| Table | Purpose | Priority |
+|-------|---------|----------|
+| `notifications` | Real-time alerts | P0 |
+| `blocked_users` | Safety/blocking | P0 |
+| `user_preferences` | Matching preferences | P1 |
+| `reports` | Content moderation | P1 |
+| `audit_log` | Change tracking | P2 |
+
+### 3.3 RLS Policy Gaps
+
+- ❌ No DELETE policies - users can't delete own data (GDPR issue)
+- ⚠️ Messages policy has complex nested SELECT (performance)
+
+---
+
+## 4. GAP ANALYSIS
+
+### 4.1 Missing Pages & Routes
+
+**Critical Pages**:
+```
+❌ /profile/setup      - New user onboarding
+❌ /profile/edit       - Edit existing profile
+❌ /events/[id]        - Event details
+❌ /messages/[id]      - Individual chat
+❌ /settings           - User preferences
+```
+
+**Missing API Routes** (only 1 exists currently):
+```
+❌ POST /api/profiles        - Create/update profile
+❌ POST /api/events/register - Event registration
+❌ POST /api/matches/interest - Express interest
+❌ POST /api/messages        - Send message
+❌ POST /api/users/block     - Block user
+❌ GET /api/search           - Search users/events
+```
+
+### 4.2 Missing Core Functionality
+
+| Feature | Complexity | Effort |
+|---------|------------|--------|
+| Profile setup/edit forms | Medium | 2 days |
+| Event details + registration | Medium | 2 days |
+| Interest expression system | High | 3 days |
+| Real-time messaging | High | 5 days |
+| Notification system | Medium | 3 days |
+| Search functionality | Medium | 2 days |
+
+---
+
+## 5. TRENDY FEATURES TO DIFFERENTIATE
+
+### 5.1 AI & Personalization (Priority for 2024-2025)
+
+| Feature | Description | Competitive Edge |
+|---------|-------------|------------------|
+| **Vibe Matching** | Analyze conversation patterns, not just interests | Unique in market |
+| **AI Icebreakers** | Context-aware conversation starters per match | Reduces awkward silence |
+| **Mood Events** | Join events based on current mood | Emotional resonance |
+| **Voice Analysis** | Optional voice note compatibility scoring | Beyond text profiles |
+| **Smart Scheduling** | AI suggests optimal event times | Higher attendance |
+
+### 5.2 Gamification & Engagement
+
+| Feature | Engagement Boost |
+|---------|-----------------|
+| **Speed Date Streaks** | +40% retention |
+| **Achievement Badges** | +25% activity |
+| **Compatibility Quizzes** | +60% time in app |
+| **Leaderboards** | +35% competition |
+
+### 5.3 Social & Community
+
+- **Group Speed Dating**: 3v3 or 4v4 events
+- **Interest Clusters**: Micro-communities (foodies, gamers)
+- **Themed Events**: 90s night, wine tasting, book clubs
+- **Wingman Mode**: Bring friends to events
+
+### 5.4 Trust & Safety (Critical)
+
+- **AI Harassment Detection**: Real-time content moderation
 - **Panic Button**: Quick exit with fake call feature
-- **Background Checks**: Optional premium verification
-- **Community Rating**: Post-date feedback (anonymous)
+- **Verification Badges**: Photo + ID verification
+- **Community Rating**: Anonymous post-date feedback
 
-#### 📱 **Modern UX**
-- **Swipe-Free Design**: No endless swiping, curated daily matches
-- **Dark Mode + Themes**: Customizable app appearance
-- **Haptic Feedback**: Tactile responses for interactions
-- **Offline Mode**: View profiles/messages without connection
+### 5.5 Modern UX Trends
 
-#### 🎯 **Niche & Inclusivity**
-- **Accessibility Features**: Screen reader support, high contrast
-- **Pronoun & Identity Options**: Comprehensive gender/orientation options
-- **Language Preferences**: Match by spoken languages
-- **Cultural Events**: Religion, ethnicity, or culture-specific events
+- **Swipe-Free**: Curated daily matches, not endless swiping
+- **Video Intros**: 10-second profile videos
+- **Voice Notes**: Audio messages in profiles
+- **Dark Mode**: System preference detection
+- **Haptic Feedback**: Tactile match notifications
 
 ---
 
-## 4. SYSTEM ARCHITECTURE
+## 6. RECOMMENDED ARCHITECTURE ENHANCEMENTS
 
-### 4.1 High-Level Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      CLIENT LAYER                           │
-├─────────────────┬───────────────────┬───────────────────────┤
-│   Web App       │   iOS App         │   Android App         │
-│   (Next.js)     │   (React Native)  │   (React Native)      │
-└────────┬────────┴─────────┬─────────┴──────────┬────────────┘
-         │                  │                    │
-         └──────────────────┼────────────────────┘
-                            │
-                    ┌───────▼───────┐
-                    │   API Gateway │
-                    │   (Kong/AWS)  │
-                    └───────┬───────┘
-                            │
-┌───────────────────────────┼───────────────────────────────┐
-│                    SERVICE LAYER                          │
-├─────────┬─────────┬───────┴───────┬─────────┬─────────────┤
-│  Auth   │  User   │    Match      │  Event  │   Chat      │
-│ Service │ Service │   Service     │ Service │  Service    │
-└────┬────┴────┬────┴───────┬───────┴────┬────┴──────┬──────┘
-     │         │            │            │           │
-┌────▼─────────▼────────────▼────────────▼───────────▼──────┐
-│                     DATA LAYER                            │
-├───────────┬────────────┬──────────┬───────────┬───────────┤
-│ PostgreSQL│   Redis    │  S3/R2   │  Pinecone │ Typesense │
-│  (Main)   │  (Cache)   │ (Media)  │ (Vector)  │ (Search)  │
-└───────────┴────────────┴──────────┴───────────┴───────────┘
-```
-
-### 4.2 Real-Time Architecture
+### 6.1 Current Architecture
 
 ```
-┌─────────┐     ┌─────────────┐     ┌──────────────┐
-│ Client  │◄───►│  WebSocket  │◄───►│    Redis     │
-│   App   │     │   Server    │     │   Pub/Sub    │
-└─────────┘     └─────────────┘     └──────────────┘
-                                           │
-                                    ┌──────▼──────┐
-                                    │   Event     │
-                                    │  Processor  │
-                                    └─────────────┘
+┌─────────────────────────────────────────┐
+│         CLIENT (Next.js 16)             │
+├─────┬──────┬─────────┬────────┬─────────┤
+│Login│Signup│Dashboard│Matches │Messages │
+│ ✅  │  ⚠️  │   ⚠️    │   ❌   │   ❌    │
+└──┬──┴──┬───┴────┬────┴────┬───┴────┬────┘
+   │     │        │         │        │
+   └─────┴────────┴─────────┴────────┘
+                  │
+         ┌────────▼────────┐
+         │  Supabase (BaaS)│
+         ├─────────────────┤
+         │ Auth      ✅    │
+         │ Database  ✅    │
+         │ Realtime  ❌    │
+         │ Storage   ❌    │
+         └─────────────────┘
 ```
+
+### 6.2 Target Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│              CLIENT LAYER                       │
+├─────────────────┬───────────────────────────────┤
+│   Web (Next.js) │   Mobile (React Native/Expo)  │
+└────────┬────────┴───────────────┬───────────────┘
+         │                        │
+         └────────────┬───────────┘
+                      │
+              ┌───────▼───────┐
+              │  API Gateway  │
+              │   + CDN       │
+              └───────┬───────┘
+                      │
+┌─────────────────────┼─────────────────────┐
+│             SERVICE LAYER                 │
+├───────┬───────┬─────┴─────┬───────┬───────┤
+│ Auth  │Profile│  Match    │ Event │ Chat  │
+└───┬───┴───┬───┴─────┬─────┴───┬───┴───┬───┘
+    │       │         │         │       │
+┌───▼───────▼─────────▼─────────▼───────▼───┐
+│              DATA LAYER                   │
+├──────────┬─────────┬──────────┬───────────┤
+│PostgreSQL│  Redis  │ Storage  │  Vector   │
+│ (Supabase)│ (Cache) │  (R2)   │(Pinecone) │
+└──────────┴─────────┴──────────┴───────────┘
+```
+
+### 6.3 Technology Additions Needed
+
+| Category | Current | Add | Purpose |
+|----------|---------|-----|---------|
+| **Validation** | HTML5 | Zod | Schema validation |
+| **Forms** | Native | React Hook Form | Better UX |
+| **Cache** | None | Redis/Upstash | Performance |
+| **Search** | None | Meilisearch | User/event search |
+| **Storage** | None | Cloudflare R2 | Profile photos |
+| **Vector DB** | None | Pinecone | AI matching |
+| **Monitoring** | None | Sentry | Error tracking |
+| **Analytics** | None | Posthog | User behavior |
 
 ---
 
-## 5. PRODUCTION READINESS MATRIX
+## 7. PRODUCTION READINESS MATRIX
 
-### 5.1 Development Phase Checklist
+### 7.1 Development Phase Checklist
 
-| Phase | Category | Item | Status | Owner | Due |
-|-------|----------|------|--------|-------|-----|
-| **1. Foundation** | Architecture | Tech stack decision | ⬜ | Architect | Week 1 |
-| | DevOps | Repository structure | ⬜ | DevOps | Week 1 |
-| | DevOps | CI/CD pipeline setup | ⬜ | DevOps | Week 1 |
-| | Security | Auth strategy | ⬜ | Security | Week 1 |
-| | Database | Schema design | ⬜ | Backend | Week 2 |
-| **2. Core Services** | Backend | User service | ⬜ | Backend | Week 3 |
-| | Backend | Auth service | ⬜ | Backend | Week 3 |
-| | Backend | Match service | ⬜ | Backend | Week 4 |
-| | Backend | Event service | ⬜ | Backend | Week 4 |
-| | Backend | Chat service | ⬜ | Backend | Week 5 |
-| **3. Frontend** | UI | Design system | ⬜ | Frontend | Week 3 |
-| | UI | Auth flows | ⬜ | Frontend | Week 4 |
-| | UI | Profile management | ⬜ | Frontend | Week 5 |
-| | UI | Event browsing | ⬜ | Frontend | Week 6 |
-| | UI | Chat interface | ⬜ | Frontend | Week 7 |
-| **4. Integration** | Video | WebRTC integration | ⬜ | Backend | Week 6 |
-| | AI | Matching algorithm | ⬜ | ML | Week 7 |
-| | Payment | Stripe integration | ⬜ | Backend | Week 8 |
+| Phase | Task | Status | Priority | Est. Days |
+|-------|------|--------|----------|-----------|
+| **1. Critical Fixes** | | | |
+| | Create `/profile/setup` page | ⬜ | P0 | 1 |
+| | Create `/profile/edit` page | ⬜ | P0 | 1 |
+| | Fix matches display | ⬜ | P0 | 0.5 |
+| | Create `/events/[id]` page | ⬜ | P0 | 1 |
+| | Fix dashboard stats | ⬜ | P0 | 0.5 |
+| | Fix middleware auth bypass | ⬜ | P0 | 0.5 |
+| **2. Core Features** | | | |
+| | Event registration flow | ⬜ | P0 | 2 |
+| | Interest expression UI | ⬜ | P0 | 2 |
+| | Mutual match detection | ⬜ | P0 | 1 |
+| | Real-time messaging | ⬜ | P0 | 5 |
+| | Email verification | ⬜ | P0 | 1 |
+| | Password reset flow | ⬜ | P0 | 1 |
+| **3. Enhancement** | | | |
+| | Add Zod validation | ⬜ | P1 | 2 |
+| | Pagination everywhere | ⬜ | P1 | 1 |
+| | Profile photo upload | ⬜ | P1 | 2 |
+| | Push notifications | ⬜ | P1 | 3 |
+| | Search functionality | ⬜ | P1 | 2 |
+| **4. Trendy Features** | | | |
+| | AI conversation starters | ⬜ | P2 | 3 |
+| | Video intros | ⬜ | P2 | 4 |
+| | Gamification system | ⬜ | P2 | 5 |
+| | Group events | ⬜ | P2 | 4 |
 
-### 5.2 Quality Gates
+### 7.2 Quality Gates
 
-| Gate | Criteria | Threshold | Status |
-|------|----------|-----------|--------|
-| **Code Quality** | Test coverage | ≥ 80% | ⬜ |
-| | Linting errors | 0 | ⬜ |
-| | Type errors | 0 | ⬜ |
-| | Code review | 2 approvals | ⬜ |
-| **Performance** | API response time | < 200ms p95 | ⬜ |
-| | Core Web Vitals | Pass | ⬜ |
-| | App load time | < 3s | ⬜ |
-| | Lighthouse score | ≥ 90 | ⬜ |
-| **Security** | OWASP Top 10 | Pass | ⬜ |
-| | Penetration test | Pass | ⬜ |
-| | Dependency audit | 0 critical | ⬜ |
-| | Data encryption | AES-256 | ⬜ |
-| **Reliability** | Uptime SLA | 99.9% | ⬜ |
-| | Error rate | < 0.1% | ⬜ |
-| | Auto-scaling | Configured | ⬜ |
-| | Backup strategy | Daily + retention | ⬜ |
+| Gate | Criteria | Target | Current |
+|------|----------|--------|---------|
+| **Code Quality** | | |
+| | Test coverage | ≥ 80% | 0% ❌ |
+| | Type errors | 0 | 0 ✅ |
+| | Linting errors | 0 | 0 ✅ |
+| | Code review | 2 approvals | N/A |
+| **Performance** | | |
+| | API p95 latency | < 200ms | N/A |
+| | Lighthouse score | ≥ 90 | ~85 ⚠️ |
+| | Load time | < 3s | ~2s ✅ |
+| **Security** | | |
+| | OWASP Top 10 | Pass | ❌ |
+| | Dependency audit | 0 critical | ✅ |
+| | Auth complete | Yes | ⚠️ 50% |
+| | Data encryption | Yes | ✅ (Supabase) |
 
-### 5.3 Pre-Launch Checklist
+### 7.3 Pre-Launch Checklist
 
-| Category | Item | Required | Status |
-|----------|------|----------|--------|
-| **Legal** | Privacy Policy | ✅ | ⬜ |
-| | Terms of Service | ✅ | ⬜ |
-| | GDPR compliance | ✅ | ⬜ |
-| | Cookie consent | ✅ | ⬜ |
-| | Age verification (18+) | ✅ | ⬜ |
-| **Infrastructure** | SSL certificates | ✅ | ⬜ |
-| | CDN configuration | ✅ | ⬜ |
-| | DDoS protection | ✅ | ⬜ |
-| | Rate limiting | ✅ | ⬜ |
-| | Database backups | ✅ | ⬜ |
-| **Monitoring** | Error tracking (Sentry) | ✅ | ⬜ |
-| | APM setup | ✅ | ⬜ |
-| | Log aggregation | ✅ | ⬜ |
-| | Alerting rules | ✅ | ⬜ |
-| | Uptime monitoring | ✅ | ⬜ |
-| **Operations** | Runbooks documented | ✅ | ⬜ |
-| | Incident response plan | ✅ | ⬜ |
-| | On-call rotation | ✅ | ⬜ |
-| | Rollback procedure | ✅ | ⬜ |
-| | Data recovery tested | ✅ | ⬜ |
-| **Marketing** | App Store listing | ✅ | ⬜ |
-| | Analytics integration | ✅ | ⬜ |
-| | Social media presence | ⭕ | ⬜ |
-| | Press kit | ⭕ | ⬜ |
+| Category | Item | Status |
+|----------|------|--------|
+| **Legal** | | |
+| | Privacy Policy | ⬜ |
+| | Terms of Service | ⬜ |
+| | GDPR compliance | ⬜ |
+| | Age verification (18+) | ⬜ |
+| **Infrastructure** | | |
+| | SSL certificates | ⬜ |
+| | CDN configuration | ⬜ |
+| | Rate limiting | ⬜ |
+| | Database backups | ✅ (Supabase) |
+| **Monitoring** | | |
+| | Error tracking (Sentry) | ⬜ |
+| | Analytics (Posthog) | ⬜ |
+| | Uptime monitoring | ⬜ |
+| | Alerting rules | ⬜ |
+| **Testing** | | |
+| | Unit tests | ⬜ |
+| | Integration tests | ⬜ |
+| | E2E tests | ⬜ |
+| | Load testing | ⬜ |
 
-### 5.4 Production Metrics Dashboard
+### 7.4 Production Metrics
 
-| Metric | Target | Alert Threshold |
-|--------|--------|-----------------|
+| Metric | Target | Alert |
+|--------|--------|-------|
 | **Business** | | |
-| Daily Active Users (DAU) | Growth 10% WoW | < 5% WoW |
-| Match Rate | > 60% | < 40% |
-| Event Completion Rate | > 80% | < 60% |
-| User Retention (D7) | > 40% | < 25% |
+| DAU growth | 10% WoW | < 5% |
+| Match rate | > 60% | < 40% |
+| Event completion | > 80% | < 60% |
+| D7 retention | > 40% | < 25% |
 | **Technical** | | |
-| API Latency (p95) | < 200ms | > 500ms |
-| Error Rate | < 0.1% | > 1% |
+| API latency p95 | < 200ms | > 500ms |
+| Error rate | < 0.1% | > 1% |
 | Uptime | 99.9% | < 99.5% |
-| Database CPU | < 70% | > 85% |
 | **Safety** | | |
-| Reports per 1000 users | < 5 | > 15 |
-| Avg Report Resolution Time | < 24h | > 48h |
-| False Positive Block Rate | < 2% | > 5% |
+| Reports per 1K users | < 5 | > 15 |
+| Resolution time | < 24h | > 48h |
 
 ---
 
-## 6. COMPETITIVE ANALYSIS
+## 8. COMPETITIVE ANALYSIS
 
-| Feature | Tinder | Bumble | Hinge | **Our App** |
-|---------|--------|--------|-------|-------------|
+| Feature | Tinder | Bumble | Hinge | **SpeedDate** |
+|---------|--------|--------|-------|---------------|
 | Video Speed Dates | ❌ | ✅ | ❌ | ✅ |
 | AI Matching | Basic | Basic | Good | **Advanced** |
-| Group Events | ❌ | BFF | ❌ | ✅ |
-| Verification | Optional | Required | Optional | **Required** |
-| Swipe-Free | ❌ | ❌ | ✅ | ✅ |
-| Voice Notes | ❌ | ✅ | ✅ | ✅ |
 | Real-time Events | ❌ | ❌ | ❌ | **✅** |
+| Group Events | ❌ | BFF | ❌ | ✅ |
+| Verification | Opt | Required | Opt | **Required** |
+| Swipe-Free | ❌ | ❌ | ✅ | ✅ |
 | Gamification | ❌ | Basic | ❌ | **Advanced** |
+
+**Unique Value Proposition**: Real-time speed dating events with AI-powered matching - not just another swipe app.
 
 ---
 
-## 7. MONETIZATION STRATEGY
+## 9. MONETIZATION STRATEGY
 
-### 7.1 Revenue Streams
+### 9.1 Pricing Tiers
 
 | Tier | Price | Features |
 |------|-------|----------|
 | **Free** | $0 | 3 events/month, basic matching, ads |
-| **Premium** | $19.99/mo | Unlimited events, AI insights, no ads |
-| **VIP** | $39.99/mo | Priority matching, exclusive events, concierge |
+| **Premium** | $19.99/mo | Unlimited events, AI insights, no ads, read receipts |
+| **VIP** | $39.99/mo | Priority matching, exclusive events, profile boost, concierge |
 
-### 7.2 Additional Revenue
-- **Event Hosting**: Venues pay to host branded events
-- **Boosts**: Pay to increase visibility
+### 9.2 Additional Revenue
+
+- **Event Hosting**: Venues pay for branded events
+- **Boosts**: $4.99 for 30-min visibility boost
+- **Super Likes**: $1.99 each (shows extra interest)
 - **Virtual Gifts**: During video dates
-- **Affiliate Partnerships**: Date venues, restaurants
+- **Partnerships**: Restaurants, date venues
 
 ---
 
-## 8. RISK MITIGATION
+## 10. RISK MITIGATION
 
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|------------|
-| Data breach | Medium | Critical | Encryption, audits, SOC2 |
-| Harassment | High | High | AI moderation, reporting |
-| Low engagement | Medium | High | Gamification, notifications |
-| Scaling issues | Medium | Medium | Auto-scaling, load testing |
-| Competition | High | Medium | Unique features, community |
+| Data breach | Medium | Critical | RLS, encryption, SOC2, audits |
+| Harassment | High | High | AI moderation, blocking, reporting |
+| Low engagement | Medium | High | Gamification, notifications, streaks |
+| Scaling issues | Medium | Medium | Supabase scales, add Redis cache |
+| Competition | High | Medium | Focus on events USP, community |
 
 ---
 
-## 9. TIMELINE & MILESTONES
+## 11. TIMELINE TO PRODUCTION
 
-| Phase | Duration | Milestone | Deliverable |
-|-------|----------|-----------|-------------|
-| **Phase 1** | Weeks 1-4 | Foundation | Architecture, auth, basic CRUD |
-| **Phase 2** | Weeks 5-8 | Core Features | Matching, events, profiles |
-| **Phase 3** | Weeks 9-12 | Real-time | Video, chat, notifications |
-| **Phase 4** | Weeks 13-14 | Polish | Testing, optimization, security |
-| **Phase 5** | Weeks 15-16 | Launch Prep | App stores, marketing, legal |
-| **Launch** | Week 17 | MVP Release | Public beta |
-
----
-
-## 10. IMMEDIATE NEXT STEPS
-
-1. **[ ] Finalize tech stack** - Decision by end of week 1
-2. **[ ] Create project scaffold** - Basic structure and CI/CD
-3. **[ ] Design database schema** - Core entities and relationships
-4. **[ ] Setup auth system** - User registration and login
-5. **[ ] Build design system** - UI components and style guide
+| Phase | Weeks | Milestone | Deliverables |
+|-------|-------|-----------|--------------|
+| **Phase 1** | 1-2 | Critical Fixes | All blocking bugs fixed, auth complete |
+| **Phase 2** | 3-4 | Core Features | Messaging, matching, events working |
+| **Phase 3** | 5-6 | Polish | Testing, optimization, security audit |
+| **Phase 4** | 7 | Soft Launch | Private beta with 100 users |
+| **Phase 5** | 8 | Production | Public launch |
 
 ---
 
-*Document Version: 1.0*
+## 12. IMMEDIATE NEXT STEPS
+
+### Week 1 Priority (Critical Fixes)
+
+1. **[P0]** Create `/app/profile/setup/page.tsx` - Onboarding form
+2. **[P0]** Create `/app/profile/edit/page.tsx` - Profile editor
+3. **[P0]** Fix `app/matches/page.tsx:75` - Display actual match names
+4. **[P0]** Create `/app/events/[id]/page.tsx` - Event details
+5. **[P0]** Fix `app/dashboard/page.tsx:76,89` - Query actual stats
+6. **[P0]** Fix `middleware.ts:5-8` - Throw error if env missing
+
+### Week 2 Priority (Core Features)
+
+7. **[P0]** Implement event registration flow
+8. **[P0]** Build interest expression system
+9. **[P0]** Add real-time messaging with Supabase Realtime
+10. **[P0]** Implement email verification
+11. **[P1]** Add Zod validation to all forms
+
+---
+
+*Document Version: 2.0*
 *Created: 2025-11-20*
 *Last Updated: 2025-11-20*
+*Status: Based on actual codebase analysis*
