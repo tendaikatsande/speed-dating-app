@@ -40,7 +40,7 @@ export default function SignupPage() {
       } else if (data.user) {
         router.push('/profile/setup')
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)

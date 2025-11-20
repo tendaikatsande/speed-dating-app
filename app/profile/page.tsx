@@ -1,11 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Navigation from '@/components/navigation'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { User, Calendar, MapPin, Heart, Edit } from 'lucide-react'
+import { User, MapPin, Edit } from 'lucide-react'
 import Link from 'next/link'
 import { calculateAge } from '@/lib/utils'
+import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 
@@ -49,11 +50,13 @@ export default async function ProfilePage() {
             <CardContent className="relative px-6 pb-6">
               {/* Avatar */}
               <div className="absolute -top-16 left-6">
-                <div className="h-32 w-32 rounded-full border-4 border-white bg-white shadow-lg flex items-center justify-center">
+                <div className="h-32 w-32 rounded-full border-4 border-white bg-white shadow-lg flex items-center justify-center overflow-hidden">
                   {profile.avatar_url ? (
-                    <img
+                    <Image
                       src={profile.avatar_url}
                       alt={profile.full_name}
+                      width={128}
+                      height={128}
                       className="h-full w-full rounded-full object-cover"
                     />
                   ) : (
