@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 async function getEvents() {
   const supabase = await createClient()
-  
+
   const { data: events } = await supabase
     .from('events')
     .select('*')
@@ -20,6 +20,26 @@ async function getEvents() {
     .limit(12)
 
   return events || []
+}
+
+async function getStats() {
+  const supabase = await createClient()
+
+  // Get active members count
+  const { count: membersCount } = await supabase
+    .from('profiles')
+    .select('*', { count: 'exact', head: true })
+
+  // Get mutual matches count
+  const { count: matchesCount } = await supabase
+    .from('matches')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'mutual')
+
+  return {
+    members: membersCount || 0,
+    matches: matchesCount || 0
+  }
 }
 
 export default async function DashboardPage() {
@@ -31,6 +51,7 @@ export default async function DashboardPage() {
   }
 
   const events = await getEvents()
+  const stats = await getStats()
 
   return (
     <>
@@ -73,7 +94,7 @@ export default async function DashboardPage() {
                     <Users className="h-6 w-6 text-pink-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-900">1,234</p>
+                    <p className="text-2xl font-bold text-gray-900">{stats.members.toLocaleString()}</p>
                     <p className="text-sm text-gray-600">Active Members</p>
                   </div>
                 </div>
@@ -86,7 +107,7 @@ export default async function DashboardPage() {
                     <Sparkles className="h-6 w-6 text-purple-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-900">567</p>
+                    <p className="text-2xl font-bold text-gray-900">{stats.matches.toLocaleString()}</p>
                     <p className="text-sm text-gray-600">Matches Made</p>
                   </div>
                 </div>

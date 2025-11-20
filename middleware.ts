@@ -2,11 +2,16 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  // Skip auth check if env vars are not set (build time)
+  // Require env vars - throw error if missing in production
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    // Only skip during build, error in runtime
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Missing required Supabase environment variables')
+      return new NextResponse('Server configuration error', { status: 500 })
+    }
     return NextResponse.next()
   }
-  
+
   return await updateSession(request)
 }
 
