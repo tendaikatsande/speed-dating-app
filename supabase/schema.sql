@@ -1,6 +1,9 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Create user role enum
+CREATE TYPE user_role AS ENUM ('user', 'organizer', 'admin');
+
 -- Create profiles table
 CREATE TABLE IF NOT EXISTS profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -13,6 +16,7 @@ CREATE TABLE IF NOT EXISTS profiles (
     interests TEXT[] DEFAULT '{}',
     looking_for TEXT[] DEFAULT '{}',
     location TEXT,
+    role user_role DEFAULT 'user',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -170,6 +174,39 @@ CREATE POLICY "Users can insert their own ratings" ON ratings
 
 CREATE POLICY "Users can update their own ratings" ON ratings
     FOR UPDATE USING (auth.uid() = user_id);
+
+-- Admin policies - Allow admins to manage all data
+CREATE POLICY "Admins can manage all profiles" ON profiles
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM profiles
+            WHERE user_id = auth.uid() AND role = 'admin'
+        )
+    );
+
+CREATE POLICY "Admins can manage all events" ON events
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM profiles
+            WHERE user_id = auth.uid() AND role = 'admin'
+        )
+    );
+
+CREATE POLICY "Admins can view all registrations" ON registrations
+    FOR SELECT USING (
+        EXISTS (
+            SELECT 1 FROM profiles
+            WHERE user_id = auth.uid() AND role = 'admin'
+        )
+    );
+
+CREATE POLICY "Admins can view all matches" ON matches
+    FOR SELECT USING (
+        EXISTS (
+            SELECT 1 FROM profiles
+            WHERE user_id = auth.uid() AND role = 'admin'
+        )
+    );
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()

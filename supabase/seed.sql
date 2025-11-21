@@ -35,7 +35,7 @@ BEGIN
     END IF;
 
     -- Insert admin profile (if not exists)
-    INSERT INTO profiles (user_id, full_name, bio, date_of_birth, gender, interests, looking_for, location)
+    INSERT INTO profiles (user_id, full_name, bio, date_of_birth, gender, interests, looking_for, location, role)
     VALUES (
         admin_user_id,
         'Admin User',
@@ -44,13 +44,14 @@ BEGIN
         'Non-binary',
         ARRAY['Event Planning', 'Community Building', 'Networking'],
         ARRAY['Professional Connections'],
-        'New York, NY'
+        'New York, NY',
+        'admin'
     )
-    ON CONFLICT (user_id) DO NOTHING;
+    ON CONFLICT (user_id) DO UPDATE SET role = 'admin';
 
     -- Insert organizer profile (if not exists and different user)
     IF organizer_user_id != admin_user_id THEN
-        INSERT INTO profiles (user_id, full_name, bio, date_of_birth, gender, interests, looking_for, location)
+        INSERT INTO profiles (user_id, full_name, bio, date_of_birth, gender, interests, looking_for, location, role)
         VALUES (
             organizer_user_id,
             'Event Organizer',
@@ -59,9 +60,10 @@ BEGIN
             'Female',
             ARRAY['Social Events', 'Dating Coaching', 'Hospitality'],
             ARRAY['Meaningful Connections'],
-            'Los Angeles, CA'
+            'Los Angeles, CA',
+            'organizer'
         )
-        ON CONFLICT (user_id) DO NOTHING;
+        ON CONFLICT (user_id) DO UPDATE SET role = 'organizer';
     END IF;
 
     -- Seed Events
