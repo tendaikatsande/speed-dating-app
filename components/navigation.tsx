@@ -78,15 +78,10 @@ export default function Navigation() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className={cn(
-                  'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
-                  pathname.startsWith('/admin')
-                    ? 'bg-indigo-50 text-indigo-600'
-                    : 'text-gray-700 hover:bg-gray-100'
-                )}
+                className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
               >
-                <Shield className="h-5 w-5" />
-                <span>Admin</span>
+                <Shield className="h-4 w-4" />
+                <span>Admin Panel</span>
               </Link>
             )}
             <button
@@ -142,15 +137,10 @@ export default function Navigation() {
               <Link
                 href="/admin"
                 onClick={() => setIsMenuOpen(false)}
-                className={cn(
-                  'flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium',
-                  pathname.startsWith('/admin')
-                    ? 'bg-indigo-50 text-indigo-600'
-                    : 'text-gray-700 hover:bg-gray-100'
-                )}
+                className="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium bg-indigo-600 text-white"
               >
                 <Shield className="h-5 w-5" />
-                <span>Admin</span>
+                <span>Admin Panel</span>
               </Link>
             )}
             <button
