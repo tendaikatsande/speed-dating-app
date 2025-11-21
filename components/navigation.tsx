@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Heart, Calendar, MessageCircle, User, LogOut, Menu, X } from 'lucide-react'
+import { Heart, Calendar, MessageCircle, User, LogOut, Menu, X, Shield } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
 export default function Navigation() {
@@ -13,6 +13,23 @@ export default function Navigation() {
   const router = useRouter()
   const [supabase] = useState(() => createClient())
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    async function checkAdminStatus() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('user_id', user.id)
+          .single()
+
+        setIsAdmin(profile?.role === 'admin' || profile?.role === 'organizer')
+      }
+    }
+    checkAdminStatus()
+  }, [supabase])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -58,6 +75,20 @@ export default function Navigation() {
                 </Link>
               )
             })}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={cn(
+                  'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                  pathname.startsWith('/admin')
+                    ? 'bg-rose-50 text-rose-600'
+                    : 'text-gray-700 hover:bg-gray-100'
+                )}
+              >
+                <Shield className="h-5 w-5" />
+                <span>Admin</span>
+              </Link>
+            )}
             <button
               onClick={handleLogout}
               className="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
@@ -107,6 +138,21 @@ export default function Navigation() {
                 </Link>
               )
             })}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  'flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium',
+                  pathname.startsWith('/admin')
+                    ? 'bg-rose-50 text-rose-600'
+                    : 'text-gray-700 hover:bg-gray-100'
+                )}
+              >
+                <Shield className="h-5 w-5" />
+                <span>Admin</span>
+              </Link>
+            )}
             <button
               onClick={handleLogout}
               className="w-full flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"

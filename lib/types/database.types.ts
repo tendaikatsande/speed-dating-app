@@ -6,6 +6,8 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type UserRole = 'user' | 'organizer' | 'admin'
+
 export interface Database {
   public: {
     Tables: {
@@ -21,6 +23,7 @@ export interface Database {
           interests: string[]
           looking_for: string[]
           location: string | null
+          role: UserRole
           created_at: string
           updated_at: string
         }
@@ -35,6 +38,7 @@ export interface Database {
           interests?: string[]
           looking_for?: string[]
           location?: string | null
+          role?: UserRole
           created_at?: string
           updated_at?: string
         }
@@ -49,6 +53,7 @@ export interface Database {
           interests?: string[]
           looking_for?: string[]
           location?: string | null
+          role?: UserRole
           created_at?: string
           updated_at?: string
         }
