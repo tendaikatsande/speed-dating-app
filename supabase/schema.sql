@@ -175,38 +175,29 @@ CREATE POLICY "Users can insert their own ratings" ON ratings
 CREATE POLICY "Users can update their own ratings" ON ratings
     FOR UPDATE USING (auth.uid() = user_id);
 
+-- Function to check if current user is admin (bypasses RLS)
+CREATE OR REPLACE FUNCTION is_admin()
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN EXISTS (
+        SELECT 1 FROM profiles
+        WHERE user_id = auth.uid() AND role = 'admin'
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Admin policies - Allow admins to manage all data
 CREATE POLICY "Admins can manage all profiles" ON profiles
-    FOR ALL USING (
-        EXISTS (
-            SELECT 1 FROM profiles
-            WHERE user_id = auth.uid() AND role = 'admin'
-        )
-    );
+    FOR ALL USING (is_admin());
 
 CREATE POLICY "Admins can manage all events" ON events
-    FOR ALL USING (
-        EXISTS (
-            SELECT 1 FROM profiles
-            WHERE user_id = auth.uid() AND role = 'admin'
-        )
-    );
+    FOR ALL USING (is_admin());
 
 CREATE POLICY "Admins can view all registrations" ON registrations
-    FOR SELECT USING (
-        EXISTS (
-            SELECT 1 FROM profiles
-            WHERE user_id = auth.uid() AND role = 'admin'
-        )
-    );
+    FOR SELECT USING (is_admin());
 
 CREATE POLICY "Admins can view all matches" ON matches
-    FOR SELECT USING (
-        EXISTS (
-            SELECT 1 FROM profiles
-            WHERE user_id = auth.uid() AND role = 'admin'
-        )
-    );
+    FOR SELECT USING (is_admin());
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
