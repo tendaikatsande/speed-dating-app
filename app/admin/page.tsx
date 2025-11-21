@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
   const stats = [
     { label: 'Total Users', value: totalUsers || 0, icon: Users, color: 'bg-blue-500' },
     { label: 'Total Events', value: totalEvents || 0, icon: Calendar, color: 'bg-green-500' },
-    { label: 'Total Matches', value: totalMatches || 0, icon: Heart, color: 'bg-rose-500' },
+    { label: 'Total Matches', value: totalMatches || 0, icon: Heart, color: 'bg-indigo-500' },
     { label: 'Total Registrations', value: totalRegistrations || 0, icon: Star, color: 'bg-purple-500' },
   ]
 
@@ -46,7 +46,7 @@ export default async function AdminDashboard() {
                   <Icon className="h-6 w-6 text-white" />
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-500">{stat.label}</p>
+                  <p className="text-sm font-medium text-gray-600">{stat.label}</p>
                   <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default async function AdminDashboard() {
               <div key={event.id} className="px-6 py-4 flex items-center justify-between">
                 <div>
                   <p className="font-medium text-gray-900">{event.title}</p>
-                  <p className="text-sm text-gray-500">{event.location}</p>
+                  <p className="text-sm text-gray-600">{event.location}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium text-gray-900">
@@ -84,7 +84,7 @@ export default async function AdminDashboard() {
               </div>
             ))
           ) : (
-            <div className="px-6 py-4 text-center text-gray-500">
+            <div className="px-6 py-4 text-center text-gray-600">
               No events found
             </div>
           )}

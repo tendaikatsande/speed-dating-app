@@ -66,7 +66,7 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100 px-4">
         <Card className="max-w-md w-full">
           <CardHeader className="text-center">
             <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
@@ -83,11 +83,11 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100 px-4">
       <Card className="max-w-md w-full">
         <CardHeader className="text-center">
-          <div className="mx-auto w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4">
-            <Lock className="h-8 w-8 text-rose-600" />
+          <div className="mx-auto w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+            <Lock className="h-8 w-8 text-indigo-600" />
           </div>
           <CardTitle className="text-2xl">Reset Password</CardTitle>
           <CardDescription>

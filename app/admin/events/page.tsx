@@ -16,7 +16,7 @@ export default async function AdminEventsPage() {
         <h1 className="text-3xl font-bold text-gray-900">Events Management</h1>
         <Link
           href="/events/create"
-          className="bg-rose-600 text-white px-4 py-2 rounded-md hover:bg-rose-700 transition-colors"
+          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
         >
           Create Event
         </Link>
@@ -26,22 +26,22 @@ export default async function AdminEventsPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Event
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Location
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Capacity
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Status
               </th>
             </tr>
@@ -55,29 +55,29 @@ export default async function AdminEventsPage() {
                       <Calendar className="h-5 w-5 text-gray-400 mr-3" />
                       <div>
                         <div className="text-sm font-medium text-gray-900">{event.title}</div>
-                        <div className="text-sm text-gray-500 truncate max-w-xs">{event.description}</div>
+                        <div className="text-sm text-gray-600 truncate max-w-xs">{event.description}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {new Date(event.date).toLocaleDateString()}
                     <br />
                     <span className="text-xs">{event.time}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-500">
+                    <div className="flex items-center text-sm text-gray-600">
                       <MapPin className="h-4 w-4 mr-1" />
                       <span className="truncate max-w-[150px]">{event.location}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-500">
+                    <div className="flex items-center text-sm text-gray-600">
                       <Users className="h-4 w-4 mr-1" />
                       {event.registered_count}/{event.capacity}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-500">
+                    <div className="flex items-center text-sm text-gray-600">
                       <DollarSign className="h-4 w-4 mr-1" />
                       {event.price}
                     </div>
@@ -96,7 +96,7 @@ export default async function AdminEventsPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                <td colSpan={6} className="px-6 py-4 text-center text-gray-600">
                   No events found
                 </td>
               </tr>

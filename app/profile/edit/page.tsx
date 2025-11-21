@@ -126,7 +126,7 @@ export default function ProfileEditPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 flex items-center justify-center">
           <div className="text-gray-600">Loading profile...</div>
         </div>
       </>
@@ -136,7 +136,7 @@ export default function ProfileEditPage() {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 py-8 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
             <Link href="/profile">
@@ -206,8 +206,8 @@ export default function ProfileEditPage() {
                         onClick={() => setFormData({ ...formData, gender })}
                         className={`p-3 rounded-lg border-2 transition-all ${
                           formData.gender === gender
-                            ? 'border-rose-600 bg-rose-50 text-rose-700'
-                            : 'border-gray-200 hover:border-rose-300'
+                            ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                            : 'border-gray-200 hover:border-indigo-300'
                         }`}
                       >
                         {gender}
@@ -240,10 +240,10 @@ export default function ProfileEditPage() {
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   placeholder="Tell potential matches about yourself..."
-                  className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none"
+                  className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
                   maxLength={500}
                 />
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-gray-600 mt-2">
                   {formData.bio.length}/500 characters
                 </p>
               </CardContent>
@@ -266,8 +266,8 @@ export default function ProfileEditPage() {
                       })}
                       className={`px-4 py-2 rounded-full border-2 transition-all ${
                         formData.interests.includes(interest)
-                          ? 'border-rose-600 bg-rose-50 text-rose-700'
-                          : 'border-gray-200 hover:border-rose-300'
+                          ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                          : 'border-gray-200 hover:border-indigo-300'
                       }`}
                     >
                       {interest}

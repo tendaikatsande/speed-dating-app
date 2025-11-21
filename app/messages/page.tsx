@@ -250,7 +250,7 @@ function MessagesContent() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 flex items-center justify-center">
           <div className="text-gray-600">Loading conversations...</div>
         </div>
       </>
@@ -260,12 +260,12 @@ function MessagesContent() {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center space-x-3 mb-2">
-              <MessageCircle className="h-8 w-8 text-rose-600" />
+              <MessageCircle className="h-8 w-8 text-indigo-600" />
               <h1 className="text-3xl font-bold text-gray-900">Messages</h1>
             </div>
             <p className="text-gray-600">Chat with your matches</p>
@@ -284,7 +284,7 @@ function MessagesContent() {
                     <div className="py-8 text-center px-4">
                       <MessageCircle className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                       <p className="text-gray-600">No conversations yet</p>
-                      <p className="text-sm text-gray-500 mt-2">
+                      <p className="text-sm text-gray-600 mt-2">
                         Match with people to start chatting!
                       </p>
                     </div>
@@ -295,11 +295,11 @@ function MessagesContent() {
                           key={convo.match_id}
                           onClick={() => handleSelectConversation(convo.match_id, convo.other_user)}
                           className={`w-full p-4 text-left hover:bg-gray-50 transition-colors ${
-                            selectedMatch === convo.match_id ? 'bg-rose-50' : ''
+                            selectedMatch === convo.match_id ? 'bg-indigo-50' : ''
                           }`}
                         >
                           <div className="flex items-center space-x-3">
-                            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-rose-400 to-pink-400 flex items-center justify-center flex-shrink-0">
+                            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400 flex items-center justify-center flex-shrink-0">
                               {convo.other_user.avatar_url ? (
                                 <img
                                   src={convo.other_user.avatar_url}
@@ -316,13 +316,13 @@ function MessagesContent() {
                                   {convo.other_user.full_name}
                                 </p>
                                 {convo.unread_count > 0 && (
-                                  <span className="bg-rose-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                  <span className="bg-indigo-600 text-white text-xs px-2 py-0.5 rounded-full">
                                     {convo.unread_count}
                                   </span>
                                 )}
                               </div>
                               {convo.last_message && (
-                                <p className="text-sm text-gray-500 truncate">
+                                <p className="text-sm text-gray-600 truncate">
                                   {convo.last_message.sender_id === userId ? 'You: ' : ''}
                                   {convo.last_message.content}
                                 </p>
@@ -354,7 +354,7 @@ function MessagesContent() {
                         >
                           <ArrowLeft className="h-5 w-5" />
                         </button>
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-r from-rose-400 to-pink-400 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400 flex items-center justify-center">
                           {selectedProfile.avatar_url ? (
                             <img
                               src={selectedProfile.avatar_url}
@@ -373,7 +373,7 @@ function MessagesContent() {
                     <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
                       {messages.length === 0 ? (
                         <div className="h-full flex items-center justify-center">
-                          <p className="text-gray-500">No messages yet. Say hello!</p>
+                          <p className="text-gray-600">No messages yet. Say hello!</p>
                         </div>
                       ) : (
                         messages.map((message) => (
@@ -384,13 +384,13 @@ function MessagesContent() {
                             <div
                               className={`max-w-[70%] rounded-lg px-4 py-2 ${
                                 message.sender_id === userId
-                                  ? 'bg-rose-600 text-white'
+                                  ? 'bg-indigo-600 text-white'
                                   : 'bg-gray-100 text-gray-900'
                               }`}
                             >
                               <p>{message.content}</p>
                               <p className={`text-xs mt-1 ${
-                                message.sender_id === userId ? 'text-rose-200' : 'text-gray-500'
+                                message.sender_id === userId ? 'text-indigo-200' : 'text-gray-600'
                               }`}>
                                 {formatDistanceToNow(new Date(message.created_at), { addSuffix: true })}
                               </p>
@@ -444,7 +444,7 @@ export default function MessagesPage() {
     <Suspense fallback={
       <>
         <Navigation />
-        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 flex items-center justify-center">
           <div className="text-gray-600">Loading messages...</div>
         </div>
       </>

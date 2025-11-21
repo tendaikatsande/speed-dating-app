@@ -98,32 +98,33 @@ export default async function EventDetailPage({
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
-          <Link href="/dashboard" className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6">
+          <Link href="/dashboard" className="inline-flex items-center text-gray-600 hover:text-indigo-600 mb-6 font-medium transition-colors">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Events
           </Link>
 
           {/* Event Header */}
-          <Card className="overflow-hidden">
+          <Card className="overflow-hidden border-0 shadow-lg">
             {/* Event Image/Banner */}
-            <div className="h-64 bg-gradient-to-r from-rose-500 to-pink-500 flex items-center justify-center">
-              <Calendar className="h-24 w-24 text-white/50" />
+            <div className="h-64 bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-black/10" />
+              <Calendar className="h-24 w-24 text-white/30" />
             </div>
 
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-3xl mb-2">{event.title}</CardTitle>
-                  <CardDescription className="text-lg">
+            <CardHeader className="pb-4">
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex-1">
+                  <CardTitle className="text-3xl mb-3 text-gray-900">{event.title}</CardTitle>
+                  <CardDescription className="text-base text-gray-600 leading-relaxed">
                     {event.description}
                   </CardDescription>
                 </div>
-                <div className="text-right">
-                  <span className={`inline-flex px-3 py-1 rounded-full text-sm font-medium ${
-                    event.status === 'upcoming' ? 'bg-green-100 text-green-700' :
+                <div className="flex-shrink-0">
+                  <span className={`inline-flex px-3 py-1.5 rounded-full text-sm font-medium ${
+                    event.status === 'upcoming' ? 'bg-emerald-100 text-emerald-700' :
                     event.status === 'ongoing' ? 'bg-blue-100 text-blue-700' :
                     event.status === 'completed' ? 'bg-gray-100 text-gray-700' :
                     'bg-red-100 text-red-700'
@@ -137,35 +138,43 @@ export default async function EventDetailPage({
             <CardContent className="space-y-6">
               {/* Event Details Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
-                  <Calendar className="h-6 w-6 text-rose-600" />
+                <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="bg-indigo-100 p-2.5 rounded-lg">
+                    <Calendar className="h-5 w-5 text-indigo-600" />
+                  </div>
                   <div>
-                    <p className="text-sm text-gray-500">Date</p>
-                    <p className="font-medium">{formatDate(event.date)}</p>
+                    <p className="text-sm font-medium text-gray-600">Date</p>
+                    <p className="font-semibold text-gray-900">{formatDate(event.date)}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
-                  <Clock className="h-6 w-6 text-rose-600" />
+                <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="bg-indigo-100 p-2.5 rounded-lg">
+                    <Clock className="h-5 w-5 text-indigo-600" />
+                  </div>
                   <div>
-                    <p className="text-sm text-gray-500">Time</p>
-                    <p className="font-medium">{formatTime(event.time)}</p>
+                    <p className="text-sm font-medium text-gray-600">Time</p>
+                    <p className="font-semibold text-gray-900">{formatTime(event.time)}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
-                  <MapPin className="h-6 w-6 text-rose-600" />
+                <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="bg-indigo-100 p-2.5 rounded-lg">
+                    <MapPin className="h-5 w-5 text-indigo-600" />
+                  </div>
                   <div>
-                    <p className="text-sm text-gray-500">Location</p>
-                    <p className="font-medium">{event.location}</p>
+                    <p className="text-sm font-medium text-gray-600">Location</p>
+                    <p className="font-semibold text-gray-900">{event.location}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
-                  <DollarSign className="h-6 w-6 text-rose-600" />
+                <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                  <div className="bg-indigo-100 p-2.5 rounded-lg">
+                    <DollarSign className="h-5 w-5 text-indigo-600" />
+                  </div>
                   <div>
-                    <p className="text-sm text-gray-500">Price</p>
-                    <p className="font-medium">
+                    <p className="text-sm font-medium text-gray-600">Price</p>
+                    <p className="font-semibold text-gray-900">
                       {event.price === 0 ? 'Free' : `$${event.price.toFixed(2)}`}
                     </p>
                   </div>
@@ -173,20 +182,22 @@ export default async function EventDetailPage({
               </div>
 
               {/* Capacity */}
-              <div className="p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
-                    <Users className="h-5 w-5 text-rose-600" />
-                    <span className="font-medium">Capacity</span>
+              <div className="p-4 bg-gray-50 rounded-xl">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="bg-indigo-100 p-2 rounded-lg">
+                      <Users className="h-5 w-5 text-indigo-600" />
+                    </div>
+                    <span className="font-semibold text-gray-900">Capacity</span>
                   </div>
-                  <span className="text-gray-600">
+                  <span className="text-gray-700 font-medium">
                     {event.registered_count} / {event.capacity} registered
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div
-                    className={`h-2 rounded-full ${
-                      isFull ? 'bg-red-500' : 'bg-rose-500'
+                    className={`h-2.5 rounded-full transition-all ${
+                      isFull ? 'bg-amber-500' : 'bg-indigo-500'
                     }`}
                     style={{
                       width: `${Math.min((event.registered_count / event.capacity) * 100, 100)}%`
@@ -196,10 +207,10 @@ export default async function EventDetailPage({
               </div>
 
               {/* Registration Action */}
-              <div className="pt-4 border-t">
+              <div className="pt-4 border-t border-gray-100">
                 {isRegistered ? (
                   <div className="space-y-4">
-                    <div className="flex items-center space-x-2 text-green-600">
+                    <div className="flex items-center space-x-2 text-emerald-600 bg-emerald-50 p-4 rounded-xl">
                       <CheckCircle className="h-5 w-5" />
                       <span className="font-medium">You&apos;re registered for this event!</span>
                     </div>
