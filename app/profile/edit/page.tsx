@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Heart, User, ArrowLeft, Save } from 'lucide-react'
+import { User, ArrowLeft, Save, Camera, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import Navigation from '@/components/navigation'
@@ -28,9 +28,12 @@ export default function ProfileEditPage() {
   const [supabase] = useState(() => createClient())
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     full_name: '',
     date_of_birth: '',
@@ -58,6 +61,7 @@ export default function ProfileEditPage() {
         .single()
 
       if (profile) {
+        setAvatarUrl(profile.avatar_url)
         setFormData({
           full_name: profile.full_name || '',
           date_of_birth: profile.date_of_birth || '',
@@ -80,6 +84,39 @@ export default function ProfileEditPage() {
     return array.includes(item)
       ? array.filter(i => i !== item)
       : [...array, item]
+  }
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    setError('')
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload/avatar', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        setError(result.error || 'Failed to upload image')
+        return
+      }
+
+      setAvatarUrl(result.url)
+      setSuccess('Avatar updated successfully!')
+      setTimeout(() => setSuccess(''), 3000)
+    } catch (err) {
+      setError('Failed to upload image. Please try again.')
+    } finally {
+      setUploading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -126,7 +163,7 @@ export default function ProfileEditPage() {
     return (
       <>
         <Navigation />
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/50 flex items-center justify-center">
           <div className="text-gray-600">Loading profile...</div>
         </div>
       </>
@@ -136,7 +173,7 @@ export default function ProfileEditPage() {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-violet-50/50 py-8 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
             <Link href="/profile">
@@ -161,6 +198,60 @@ export default function ProfileEditPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Avatar Upload */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Camera className="h-5 w-5" />
+                  Profile Photo
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-6">
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 border-4 border-white shadow-lg">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <User className="h-12 w-12 text-gray-400" />
+                        </div>
+                      )}
+                    </div>
+                    {uploading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full">
+                        <Loader2 className="h-6 w-6 text-white animate-spin" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleAvatarUpload}
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      className="hidden"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploading}
+                    >
+                      {uploading ? 'Uploading...' : 'Change Photo'}
+                    </Button>
+                    <p className="text-sm text-gray-500 mt-2">
+                      JPG, PNG, WebP or GIF. Max 5MB.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Basic Info */}
             <Card>
               <CardHeader>
@@ -294,8 +385,8 @@ export default function ProfileEditPage() {
                       })}
                       className={`px-4 py-2 rounded-full border-2 transition-all ${
                         formData.looking_for.includes(item)
-                          ? 'border-purple-600 bg-purple-50 text-purple-700'
-                          : 'border-gray-200 hover:border-purple-300'
+                          ? 'border-violet-600 bg-violet-50 text-violet-700'
+                          : 'border-gray-200 hover:border-violet-300'
                       }`}
                     >
                       {item}
