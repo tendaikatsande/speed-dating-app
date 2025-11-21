@@ -70,11 +70,11 @@ export default async function ProfilePage() {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card className="overflow-hidden">
             {/* Header */}
-            <div className="bg-gradient-to-r from-rose-600 to-pink-600 h-32" />
+            <div className="bg-gradient-to-r from-indigo-600 to-violet-600 h-32" />
             
             <CardContent className="relative px-6 pb-6">
               {/* Avatar */}
@@ -132,7 +132,7 @@ export default async function ProfilePage() {
                     {profile.interests.map((interest: string, index: number) => (
                       <span
                         key={index}
-                        className="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-sm font-medium"
+                        className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium"
                       >
                         {interest}
                       </span>
@@ -167,7 +167,7 @@ export default async function ProfilePage() {
                 <CardTitle className="text-lg">Events Attended</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-bold text-rose-600">{stats.events}</p>
+                <p className="text-3xl font-bold text-indigo-600">{stats.events}</p>
               </CardContent>
             </Card>
             <Card>
@@ -175,7 +175,7 @@ export default async function ProfilePage() {
                 <CardTitle className="text-lg">Matches</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-3xl font-bold text-pink-600">{stats.matches}</p>
+                <p className="text-3xl font-bold text-violet-600">{stats.matches}</p>
               </CardContent>
             </Card>
             <Card>

@@ -13,7 +13,7 @@ export default async function AdminUsersPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Users Management</h1>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-600">
           Total: {users?.length || 0} users
         </div>
       </div>
@@ -22,19 +22,19 @@ export default async function AdminUsersPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 User
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Location
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Gender
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Role
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Joined
               </th>
             </tr>
@@ -54,23 +54,23 @@ export default async function AdminUsersPage() {
                           />
                         ) : (
                           <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                            <User className="h-5 w-5 text-gray-500" />
+                            <User className="h-5 w-5 text-gray-600" />
                           </div>
                         )}
                       </div>
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{user.full_name}</div>
-                        <div className="text-sm text-gray-500 truncate max-w-xs">{user.bio || 'No bio'}</div>
+                        <div className="text-sm text-gray-600 truncate max-w-xs">{user.bio || 'No bio'}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-500">
+                    <div className="flex items-center text-sm text-gray-600">
                       <MapPin className="h-4 w-4 mr-1" />
                       {user.location || 'Not specified'}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {user.gender}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -82,7 +82,7 @@ export default async function AdminUsersPage() {
                       {user.role || 'user'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-1" />
                       {new Date(user.created_at).toLocaleDateString()}
@@ -92,7 +92,7 @@ export default async function AdminUsersPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                <td colSpan={5} className="px-6 py-4 text-center text-gray-600">
                   No users found
                 </td>
               </tr>

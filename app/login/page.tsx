@@ -43,10 +43,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100 px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
         <div className="flex flex-col items-center mb-8">
-          <Heart className="h-16 w-16 text-rose-600 mb-4" fill="currentColor" />
+          <Heart className="h-16 w-16 text-indigo-600 mb-4" fill="currentColor" />
           <h1 className="text-3xl font-bold text-gray-900">Welcome Back!</h1>
           <p className="text-gray-600 mt-2">Sign in to find your match</p>
         </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <Link href="/forgot-password" className="text-sm text-rose-600 hover:text-rose-700">
+              <Link href="/forgot-password" className="text-sm text-indigo-600 hover:text-indigo-700">
                 Forgot password?
               </Link>
             </div>
@@ -103,7 +103,7 @@ export default function LoginPage() {
 
           <div className="text-center text-sm text-gray-600">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="text-rose-600 font-medium hover:text-rose-700">
+            <Link href="/signup" className="text-indigo-600 font-medium hover:text-indigo-700">
               Sign up
             </Link>
           </div>

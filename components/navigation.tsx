@@ -49,7 +49,7 @@ export default function Navigation() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/dashboard" className="flex items-center space-x-2">
-              <Heart className="h-8 w-8 text-rose-600" fill="currentColor" />
+              <Heart className="h-8 w-8 text-indigo-600" fill="currentColor" />
               <span className="text-2xl font-bold text-gray-900">SpeedDate</span>
             </Link>
           </div>
@@ -66,7 +66,7 @@ export default function Navigation() {
                   className={cn(
                     'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-rose-50 text-rose-600'
+                      ? 'bg-indigo-50 text-indigo-600'
                       : 'text-gray-700 hover:bg-gray-100'
                   )}
                 >
@@ -81,7 +81,7 @@ export default function Navigation() {
                 className={cn(
                   'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                   pathname.startsWith('/admin')
-                    ? 'bg-rose-50 text-rose-600'
+                    ? 'bg-indigo-50 text-indigo-600'
                     : 'text-gray-700 hover:bg-gray-100'
                 )}
               >
@@ -129,7 +129,7 @@ export default function Navigation() {
                   className={cn(
                     'flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium',
                     isActive
-                      ? 'bg-rose-50 text-rose-600'
+                      ? 'bg-indigo-50 text-indigo-600'
                       : 'text-gray-700 hover:bg-gray-100'
                   )}
                 >
@@ -145,7 +145,7 @@ export default function Navigation() {
                 className={cn(
                   'flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium',
                   pathname.startsWith('/admin')
-                    ? 'bg-rose-50 text-rose-600'
+                    ? 'bg-indigo-50 text-indigo-600'
                     : 'text-gray-700 hover:bg-gray-100'
                 )}
               >

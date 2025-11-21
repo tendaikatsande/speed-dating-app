@@ -12,11 +12,11 @@ function VerifyEmailContent() {
   const email = searchParams.get('email')
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100 px-4">
       <Card className="max-w-md w-full">
         <CardHeader className="text-center">
-          <div className="mx-auto w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4">
-            <Mail className="h-8 w-8 text-rose-600" />
+          <div className="mx-auto w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+            <Mail className="h-8 w-8 text-indigo-600" />
           </div>
           <CardTitle className="text-2xl">Check your email</CardTitle>
           <CardDescription className="text-base">
@@ -41,9 +41,9 @@ function VerifyEmailContent() {
             </Link>
           </div>
 
-          <p className="text-xs text-gray-500 text-center">
+          <p className="text-xs text-gray-600 text-center">
             Didn&apos;t receive the email? Check your spam folder or{' '}
-            <Link href="/signup" className="text-rose-600 hover:underline">
+            <Link href="/signup" className="text-indigo-600 hover:underline">
               try signing up again
             </Link>
           </p>
@@ -56,7 +56,7 @@ function VerifyEmailContent() {
 export default function VerifyEmailPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100">
         <div className="text-gray-600">Loading...</div>
       </div>
     }>

@@ -83,12 +83,12 @@ export default async function MatchesPage() {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center space-x-3 mb-2">
-              <Heart className="h-8 w-8 text-rose-600" fill="currentColor" />
+              <Heart className="h-8 w-8 text-indigo-600" fill="currentColor" />
               <h1 className="text-3xl font-bold text-gray-900">Your Matches</h1>
             </div>
             <p className="text-gray-600">Connect with people you&apos;ve matched with</p>
@@ -118,7 +118,7 @@ export default async function MatchesPage() {
                   <Card key={match.id} className="hover:shadow-lg transition-shadow">
                     <CardHeader>
                       <div className="flex items-center space-x-4">
-                        <div className="h-16 w-16 rounded-full bg-gradient-to-r from-rose-400 to-pink-400 flex items-center justify-center overflow-hidden">
+                        <div className="h-16 w-16 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400 flex items-center justify-center overflow-hidden">
                           {profile?.avatar_url ? (
                             <img
                               src={profile.avatar_url}
@@ -148,7 +148,7 @@ export default async function MatchesPage() {
                         </p>
                       )}
                       {match.event && (
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-600">
                           Matched at: {match.event.title}
                         </p>
                       )}

@@ -57,10 +57,10 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100 px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
         <div className="flex flex-col items-center mb-8">
-          <Heart className="h-16 w-16 text-rose-600 mb-4" fill="currentColor" />
+          <Heart className="h-16 w-16 text-indigo-600 mb-4" fill="currentColor" />
           <h1 className="text-3xl font-bold text-gray-900">Join SpeedDate</h1>
           <p className="text-gray-600 mt-2">Start your journey to finding love</p>
         </div>
@@ -128,7 +128,7 @@ export default function SignupPage() {
 
           <div className="text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <Link href="/login" className="text-rose-600 font-medium hover:text-rose-700">
+            <Link href="/login" className="text-indigo-600 font-medium hover:text-indigo-700">
               Sign in
             </Link>
           </div>

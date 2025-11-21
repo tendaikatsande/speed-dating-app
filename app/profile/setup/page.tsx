@@ -118,17 +118,17 @@ export default function ProfileSetupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-violet-50 to-purple-100 py-8 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="flex flex-col items-center mb-8">
-          <Heart className="h-12 w-12 text-rose-600 mb-4" fill="currentColor" />
+          <Heart className="h-12 w-12 text-indigo-600 mb-4" fill="currentColor" />
           <h1 className="text-3xl font-bold text-gray-900">Complete Your Profile</h1>
           <p className="text-gray-600 mt-2">Step {step} of 4</p>
 
           {/* Progress bar */}
           <div className="w-full max-w-xs mt-4 bg-gray-200 rounded-full h-2">
             <div
-              className="bg-rose-600 h-2 rounded-full transition-all duration-300"
+              className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${(step / 4) * 100}%` }}
             />
           </div>
@@ -176,7 +176,7 @@ export default function ProfileSetupPage() {
                     required
                     max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
                   />
-                  <p className="text-xs text-gray-500 mt-1">Must be 18 or older</p>
+                  <p className="text-xs text-gray-600 mt-1">Must be 18 or older</p>
                 </div>
 
                 <div>
@@ -191,8 +191,8 @@ export default function ProfileSetupPage() {
                         onClick={() => setFormData({ ...formData, gender })}
                         className={`p-3 rounded-lg border-2 transition-all ${
                           formData.gender === gender
-                            ? 'border-rose-600 bg-rose-50 text-rose-700'
-                            : 'border-gray-200 hover:border-rose-300'
+                            ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                            : 'border-gray-200 hover:border-indigo-300'
                         }`}
                       >
                         {gender}
@@ -238,15 +238,15 @@ export default function ProfileSetupPage() {
                       })}
                       className={`px-4 py-2 rounded-full border-2 transition-all ${
                         formData.interests.includes(interest)
-                          ? 'border-rose-600 bg-rose-50 text-rose-700'
-                          : 'border-gray-200 hover:border-rose-300'
+                          ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                          : 'border-gray-200 hover:border-indigo-300'
                       }`}
                     >
                       {interest}
                     </button>
                   ))}
                 </div>
-                <p className="text-sm text-gray-500 mt-4">
+                <p className="text-sm text-gray-600 mt-4">
                   Selected: {formData.interests.length}/3 minimum
                 </p>
               </CardContent>
@@ -302,10 +302,10 @@ export default function ProfileSetupPage() {
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   placeholder="Tell potential matches about yourself..."
-                  className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none"
+                  className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
                   maxLength={500}
                 />
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-gray-600 mt-2">
                   {formData.bio.length}/500 characters
                 </p>
               </CardContent>
